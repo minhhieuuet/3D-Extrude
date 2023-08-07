@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Extrude</title>
+</head>
+<body>
+  <h2>3D Extrude</h2>
+  <select id="tag" onchange="handleSelect()">
+    <option selected="selected" value="substance_painter">Substance Painter</option>
+    <option value="substance_designer">Substance Designer</option>
+    <option value="smart_material">Smart Material</option>
+    <option value="full_video">Full Video</option>
+    <option value="autodesk_maya">Autodesk Maya</option>
+    <option value="zbrush">Zbrush</option>
+    <option value="3d_modeling">3D Modeling</option>
+    <option value="free_files">Free Files</option>
+    <option value="tutorial">Tutorial</option>
+    <option value="poll">Poll</option>
+  </select>
+  <table>
+    <thead>
+      <th>No</h>
+      <th>Title</th>
+      <th>Thumbnail</th>
+      <th>Youtube</th>
+    </thead>
+    <tbody id="table-body">
+
+    </tbody>
+  </table>
+</body>
+<script>
+  window.addEventListener('load', async function () {
+    await handleSelect();
+  })
+  const handleSelect = async () => {
+    const value = document.querySelector('#tag').value;
+    const data = await fetch(`${value}.json`).then(res => res.json());
+    document.querySelector('#table-body').innerHTML = '';
+    data.forEach((value, index) => { 
+      document.querySelector('#table-body').innerHTML += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${value.title}</td>
+        <td><img src="${value.thumbnail}" alt="" width="200px"></td>
+        <td><a href="${value.url}" target="_blank">Youtube</a></td>
+      </tr>`
+    });
+  }
+</script>
+</html>
