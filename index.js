@@ -32,9 +32,6 @@ let config = {
       const response = await axios.request(config);
       results = [...results, ...response.data.data.map(item => {
         let url = '';
-        if(item.attributes.embed) {
-          url = item.attributes.embed.url;
-        }
         let thumbnail = '';
         if(item.attributes.thumbnail) {
           thumbnail = item.attributes.thumbnail.url;

@@ -40,6 +40,12 @@
     const data = await fetch(`${value}.json`).then(res => res.json());
     document.querySelector('#table-body').innerHTML = '';
     data.forEach((value, index) => { 
+      if(value.url) {
+        value.thumbnail = `https://img.youtube.com/vi/${value.url.replace('https://youtu.be/', '')}/0.jpg`;
+      }
+      if(value.url.contains("v=")) {
+        
+      }
       document.querySelector('#table-body').innerHTML += `
       <tr>
         <td>${index + 1}</td>
