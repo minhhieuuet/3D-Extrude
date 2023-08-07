@@ -23,6 +23,7 @@
     <thead>
       <th>No</h>
       <th>Title</th>
+       <th>Thumbnail URL</th>
       <th>Thumbnail</th>
       <th>Youtube</th>
     </thead>
@@ -44,6 +45,7 @@
       <tr>
         <td>${index + 1}</td>
         <td>${value.title}</td>
+        <td><a href="${value.thumbnail}" target="_blank">${value.thumbnail}</a></td>
         <td><img src="${value.thumbnail}" alt="" width="200px"></td>
         <td><a href="${value.url}" target="_blank">Youtube</a></td>
       </tr>`
