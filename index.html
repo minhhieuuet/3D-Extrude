@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Extrude</title>
-  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+<script>
+$(function() {
+    $("img.lazy").lazyload({effect : "fadeIn"});
+});
+</script> 
 </head>
 <body>
   <h2>3D Extrude</h2>
@@ -54,11 +60,11 @@
       <tr>
         <td>${index + 1}</td>
         <td>${value.title}</td>
-        <td><img class="lazy" src="${value.thumbnail}" alt="" width="500px"></td>
+        <td><img class="lazy" data-original="${value.thumbnail}" alt="" width="500px"></td>
         <td><a href="${value.url}" target="_blank">Youtube</a></td>
       </tr>`
     });
-    window.lazyLoadInstance.update();
+    $("img.lazy").lazyload({effect : "fadeIn"});
   }
 </script>
 </html>
