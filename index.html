@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Extrude</title>
+  
 </head>
 <body>
   <h2>3D Extrude</h2>
@@ -31,7 +32,9 @@
     </tbody>
   </table>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>
 <script>
+ 
   window.addEventListener('load', async function () {
     await handleSelect();
   })
@@ -42,18 +45,23 @@
     data.forEach((value, index) => { 
       if(value.url) {
         value.thumbnail = `https://img.youtube.com/vi/${value.url.replace('https://youtu.be/', '')}/0.jpg`;
+        if(value.url.includes("v=")) {
+          const params = new URLSearchParams(value.url.replace("https://www.youtube.com/watch", ""));
+           value.thumbnail = `https://img.youtube.com/vi/${params.get("v")}/0.jpg`;
+        }
       }
-      if(value.url.contains("v=")) {
+      // if(value.url.contains("v=")) {
         
-      }
+      // }
       document.querySelector('#table-body').innerHTML += `
       <tr>
         <td>${index + 1}</td>
         <td>${value.title}</td>
-        <td><img src="${value.thumbnail}" alt="" width="200px"></td>
+        <td><img class="lazy" src="${value.thumbnail}" alt="" width="500px"></td>
         <td><a href="${value.url}" target="_blank">Youtube</a></td>
       </tr>`
     });
+    window.lazyLoadInstance.update();
   }
 </script>
 </html>
