@@ -1,70 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Extrude</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
-<script>
-$(function() {
-    $("img.lazy").lazyload({effect : "fadeIn"});
-});
-</script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </head>
-<body>
-  <h2>3D Extrude</h2>
-  <select id="tag" onchange="handleSelect()">
-    <option selected="selected" value="substance_painter">Substance Painter</option>
-    <option value="substance_designer">Substance Designer</option>
-    <option value="smart_material">Smart Material</option>
-    <option value="full_video">Full Video</option>
-    <option value="autodesk_maya">Autodesk Maya</option>
-    <option value="zbrush">Zbrush</option>
-    <option value="3d_modeling">3D Modeling</option>
-    <option value="free_files">Free Files</option>
-    <option value="tutorial">Tutorial</option>
-    <option value="poll">Poll</option>
-  </select>
-  <table>
-    <thead>
-      <th>No</h>
-      <th>Title</th>
-      <th>Thumbnail</th>
-      <th>Youtube</th>
-    </thead>
-    <tbody id="table-body">
 
-    </tbody>
-  </table>
+<body>
+  <div class="container-fluid">
+    <h1>3D Extrude</h2>
+    <select id="tag" onchange="handleSelect()">
+      <option selected="selected" value="substance_painter">Substance Painter</option>
+      <option value="substance_designer">Substance Designer</option>
+      <option value="smart_material">Smart Material</option>
+      <option value="full_video">Full Video</option>
+      <option value="autodesk_maya">Autodesk Maya</option>
+      <option value="zbrush">Zbrush</option>
+      <option value="3d_modeling">3D Modeling</option>
+      <option value="free_files">Free Files</option>
+      <option value="tutorial">Tutorial</option>
+      <option value="poll">Poll</option>
+    </select>
+    <div>
+      <h2 id="selected-tag"></h2>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>No</h>
+          <th width ="200px">Title</th>
+          <th>Thumbnail</th>
+          <th>Youtube</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+  
+      </tbody>
+    </table>
+  </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>
 <script>
- 
+  String.prototype.toPascalCase = function() {
+  return this
+    .toLowerCase()
+    .replace(new RegExp(/[-_]+/, 'g'), ' ')
+    .replace(new RegExp(/[^\w\s]/, 'g'), '')
+    .replace(
+      new RegExp(/\s+(.)(\w*)/, 'g'),
+      ($1, $2, $3) => `${$2.toUpperCase() + $3}`
+    )
+    .replace(new RegExp(/\w/), s => s.toUpperCase());
+};
   window.addEventListener('load', async function () {
     await handleSelect();
   })
   const handleSelect = async () => {
+    document.querySelector('#table-body').innerHTML = '<div id="loading"><img src="./loading.gif" style="width: 100px;"/></div>';
     const value = document.querySelector('#tag').value;
     const data = await fetch(`${value}.json`).then(res => res.json());
     document.querySelector('#table-body').innerHTML = '';
-    data.forEach((value, index) => { 
-      if(value.url) {
+    document.querySelector('#selected-tag').innerHTML = `${value.split("_").join(" ").toPascalCase()} (${data.length})`;
+    data.forEach((value, index) => {
+      if (value.url) {
         value.thumbnail = `https://img.youtube.com/vi/${value.url.replace('https://youtu.be/', '')}/0.jpg`;
-        if(value.url.includes("v=")) {
+        if (value.url.includes("v=")) {
           const params = new URLSearchParams(value.url.replace("https://www.youtube.com/watch", ""));
-           value.thumbnail = `https://img.youtube.com/vi/${params.get("v")}/0.jpg`;
+          value.thumbnail = `https://img.youtube.com/vi/${params.get("v")}/0.jpg`;
         }
       }
       document.querySelector('#table-body').innerHTML += `
       <tr>
         <td>${index + 1}</td>
-        <td>${value.title}</td>
-        <td><img class="lazy" data-original="${value.thumbnail}" alt="" width="500px"></td>
+        <td style="font-size: 30px;font-weight: bold;">${value.title}</td>
+        <td><img class="lazy" data-original="${value.thumbnail}" alt="" width="700px"></td>
         <td><a href="${value.url}" target="_blank">Youtube</a></td>
       </tr>`
     });
-    $("img.lazy").lazyload({effect : "fadeIn"});
+    $("img.lazy").lazyload({ effect: "fadeIn" });
   }
 </script>
+<style>
+  table {
+    text-align: center;
+  }
+  #loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+</style>
 </html>
