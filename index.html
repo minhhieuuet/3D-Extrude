@@ -4,28 +4,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Extrude</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <title>3D Extrude Tutorials</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
   <div class="container-fluid">
-    <h1>3D Extrude</h2>
-    <select id="tag" onchange="handleSelect()">
-      <option selected="selected" value="substance_painter">Substance Painter</option>
-      <option value="substance_designer">Substance Designer</option>
-      <option value="smart_material">Smart Material</option>
-      <option value="full_video">Full Video</option>
-      <option value="autodesk_maya">Autodesk Maya</option>
-      <option value="zbrush">Zbrush</option>
-      <option value="3d_modeling">3D Modeling</option>
-      <option value="free_files">Free Files</option>
-      <option value="tutorial">Tutorial</option>
-      <option value="poll">Poll</option>
-    </select>
+    <div style="text-align: center; width: 100vw;position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;">
+      <h1 class="title">3D Extrude Tutorials</h1>
+    </div>
+    <div>
+      <div class="input-group" style="width: 250px; margin-bottom: 5px;">
+        <label class="input-group-text" for="tag">Tag</label>
+        <select class="form-select" id="tag" onchange="handleSelect()">
+          <option selected="selected" value="substance_painter">Substance Painter</option>
+          <option value="substance_designer">Substance Designer</option>
+          <option value="smart_material">Smart Material</option>
+          <option value="full_video">Full Video</option>
+          <option value="autodesk_maya">Autodesk Maya</option>
+          <option value="zbrush">Zbrush</option>
+          <option value="3d_modeling">3D Modeling</option>
+          <option value="free_files">Free Files</option>
+          <option value="tutorial">Tutorial</option>
+          <option value="poll">Poll</option>
+        </select>
+      </div>
+      <div class="input-group" style="width: 250px;">
+        <input type="number" class="form-control" id="img-size" placeholder="Image size" value="700" />
+        <span class="input-group-text" id="basic-addon2">px</span>
+        <button class="btn btn-primary" onclick="handleResize()">Resize</button>
+      </div>
+
+    </div>
+
     <div>
       <h2 id="selected-tag"></h2>
     </div>
@@ -33,36 +53,37 @@
       <thead>
         <tr>
           <th>No</h>
-          <th width ="200px">Title</th>
+          <th width="200px">Title</th>
           <th>Thumbnail</th>
           <th>Youtube</th>
         </tr>
       </thead>
       <tbody id="table-body">
-  
+
       </tbody>
     </table>
   </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>
 <script>
-  String.prototype.toPascalCase = function() {
-  return this
-    .toLowerCase()
-    .replace(new RegExp(/[-_]+/, 'g'), ' ')
-    .replace(new RegExp(/[^\w\s]/, 'g'), '')
-    .replace(
-      new RegExp(/\s+(.)(\w*)/, 'g'),
-      ($1, $2, $3) => `${$2.toUpperCase() + $3}`
-    )
-    .replace(new RegExp(/\w/), s => s.toUpperCase());
-};
+  String.prototype.toPascalCase = function () {
+    return this
+      .toLowerCase()
+      .replace(new RegExp(/[-_]+/, 'g'), ' ')
+      .replace(new RegExp(/[^\w\s]/, 'g'), '')
+      .replace(
+        new RegExp(/\s+(.)(\w*)/, 'g'),
+        ($1, $2, $3) => `${$2.toUpperCase() + $3}`
+      )
+      .replace(new RegExp(/\w/), s => s.toUpperCase());
+  };
   window.addEventListener('load', async function () {
     await handleSelect();
   })
   const handleSelect = async () => {
     document.querySelector('#table-body').innerHTML = '<div id="loading"><img src="./loading.gif" style="width: 100px;"/></div>';
     const value = document.querySelector('#tag').value;
+    document.querySelector('#selected-tag').innerHTML = `${value.split("_").join(" ").toPascalCase()}`;
     const data = await fetch(`${value}.json`).then(res => res.json());
     document.querySelector('#table-body').innerHTML = '';
     document.querySelector('#selected-tag').innerHTML = `${value.split("_").join(" ").toPascalCase()} (${data.length})`;
@@ -84,15 +105,32 @@
     });
     $("img.lazy").lazyload({ effect: "fadeIn" });
   }
+  const handleResize = () => {
+    const size = document.querySelector('#img-size').value;
+    [...document.querySelectorAll('#table-body img')].map(el => el.style.width = `${size}px`)
+  }
 </script>
 <style>
   table {
     text-align: center;
   }
+
+  .title {
+    font-size: 70px;
+    font-weight: bold;
+    width: 700px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-image: conic-gradient(#553c9a 30%, #ee4b2b 40%, #ee4b2b 70%, #00c2cb 80%, #553c9a);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
   #loading {
     position: absolute;
     top: 50%;
     left: 50%;
   }
 </style>
+
 </html>
