@@ -80,6 +80,7 @@
     await handleSelect();
   })
   const handleSelect = async () => {
+    const size = document.querySelector('#img-size').value;
     document.querySelector('#table-body').innerHTML = '<div id="loading"><img src="./loading.gif" style="width: 100px;"/></div>';
     const value = document.querySelector('#tag').value;
     document.querySelector('#selected-tag').innerHTML = `${value.split("_").join(" ").toPascalCase()}`;
@@ -105,7 +106,7 @@
       </tr>`
     });
     document.querySelector('#table-body').innerHTML = html;
-    $("img.lazy").lazyload({ effect: "fadeIn" });
+    $("img.lazy").lazyload({ effect: "fadeIn", threshold: size });
     handleResize();
   }
   const handleResize = () => {
