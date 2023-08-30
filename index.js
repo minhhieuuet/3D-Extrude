@@ -1,7 +1,7 @@
 const fs = require('fs');
 const axios = require('axios');
 
-const scanTag = 'poll';
+const scanTag = 'Zbrush';
 const tag = encodeURI(scanTag);
 
 let config = {
