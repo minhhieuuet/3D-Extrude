@@ -28,9 +28,7 @@
           <option value="autodesk_maya">Autodesk Maya</option>
           <option value="zbrush">Zbrush</option>
           <option value="3d_modeling">3D Modeling</option>
-          <option value="free_files">Free Files</option>
           <option value="tutorial">Tutorial</option>
-          <option value="poll">Poll</option>
         </select>
       </div>
       <div class="input-group" style="width: 250px;">
@@ -102,7 +100,9 @@
         <td>${index + 1}</td>
         <td style="font-size: 30px;font-weight: bold;">${value.title}</td>
         <td><img class="lazy" data-original="${value.thumbnail}" alt="" width="700px"></td>
-        <td><a href="${value.url}" target="_blank">Youtube</a></td>
+        <td>
+          ${value.url !== '' ? '<a href="${value.url}" target="_blank">Youtube</a>}': 'No video'}
+        </td>
       </tr>`
     });
     document.querySelector('#table-body').innerHTML = html;
