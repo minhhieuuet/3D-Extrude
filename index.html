@@ -18,17 +18,17 @@
       <h1 class="title">3D Extrude Tutorials</h1>
     </div>
     <div>
-      <div class="input-group" style="width: 250px; margin-bottom: 5px;">
+      <div class="input-group" style="width: 280px; margin-bottom: 5px;">
         <label class="input-group-text" for="tag">Tag</label>
         <select class="form-select" id="tag" onchange="handleSelect()">
-          <option selected="selected" value="substance_painter">Substance Painter</option>
-          <option value="substance_designer">Substance Designer</option>
-          <option value="smart_material">Smart Material</option>
-          <option value="full_video">Full Video</option>
-          <option value="autodesk_maya">Autodesk Maya</option>
-          <option value="zbrush">Zbrush</option>
-          <option value="3d_modeling">3D Modeling</option>
-          <option value="tutorial">Tutorial</option>
+          <option selected="selected" value="substance_painter">Substance Painter (293)</option>
+          <option value="substance_designer">Substance Designer (333)</option>
+          <option value="smart_material">Smart Material (4)</option>
+          <option value="full_video">Full Video (460)</option>
+          <option value="autodesk_maya">Autodesk Maya (291)</option>
+          <option value="zbrush">Zbrush (188)</option>
+          <option value="3d_modeling">3D Modeling (6)</option>
+          <option value="tutorial">Tutorial (4)</option>
         </select>
       </div>
       <div class="input-group" style="width: 250px;">
@@ -101,7 +101,7 @@
         <td style="font-size: 30px;font-weight: bold;">${value.title}</td>
         <td><img class="lazy" data-original="${value.thumbnail}" alt="" width="700px"></td>
         <td>
-          ${value.url !== '' ? '<a href="${value.url}" target="_blank">Youtube</a>}': 'No video'}
+          ${value.url !== '' ? `<a href="${value.url}" target="_blank">Youtube</a>` : 'No video'}
         </td>
       </tr>`
     });
