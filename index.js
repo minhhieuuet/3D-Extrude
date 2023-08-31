@@ -1,7 +1,8 @@
 const fs = require('fs');
 const axios = require('axios');
 
-const scanTags = ['Zbrush'];
+const scanTags = ['3D Modeling', 'Autodesk Maya', 'Free files', 'Full Video',
+ 'Poll', 'Smart Material', 'Substance Designer', 'Substance Painter', 'Tutorial', 'Zbrush'];
 
 (async () => {
   for (let scanTag of scanTags) {
